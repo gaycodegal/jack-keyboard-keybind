@@ -1,10 +1,8 @@
-# jack-keyboard (rebindable edition)
-
-## Preface from modder
+# Preface from modder about rebinding
 
 Still very much a work in progress, more features and cleanup to come
 
-### Data
+## Data
 
 ```shell
 mkdir ~/.jack-keyboard
@@ -17,6 +15,8 @@ cp ./boards/* ~/.jack-keyboard/boards
 You can modify the bindings file to remap your keys to new notes. You could for instance change the mapping to a different scale, or add more keys if you have a bigger keyboard. Eventually I hope to support rebinding of functions, the ability to change keyboard or scale, but this is a start.
 
 You can modify the boards files to support more custom layouts like dvorak, etc. `xev` can help with finding out keycodes
+
+# jack-keyboard (rebindable edition)
 
 ![Screenshot of jack-keyboard](jack_keyboard.png)
 
