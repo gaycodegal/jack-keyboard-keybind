@@ -48,6 +48,7 @@
 #include <string.h>
 
 #include "pianokeyboard.hh"
+#include "easykeyboard.hh"
 
 #include "easycsv.hh"
 #include "util.hh"

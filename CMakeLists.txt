@@ -36,7 +36,7 @@ set(X11Enable ON CACHE BOOL "Enable support for X11")
 
 project(jack-keyboard)
 
-add_executable(jack-keyboard src/jack-keyboard src/pianokeyboard src/util src/easycsv)
+add_executable(jack-keyboard src/jack-keyboard src/pianokeyboard src/util src/easykeyboard src/easycsv)
 add_definitions(-std=c++20)
 
 find_package(GTK2 2.2 REQUIRED gtk)
