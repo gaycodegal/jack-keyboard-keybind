@@ -48,6 +48,8 @@
 #include <string.h>
 
 #include "pianokeyboard.hh"
+// using easy keyboard because eventually I want to be able to bind to
+// chord or arpeggiator, as well as note
 #include "easykeyboard.hh"
 
 #include "easycsv.hh"
