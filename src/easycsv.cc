@@ -1,8 +1,8 @@
 #include "easycsv.hh"
 
 #include <iostream>
-#include <string_view>
 #include <span>
+#include <string_view>
 
 // declare callbacks; static to not pollute the namespace
 static int is_space(unsigned char c) {
@@ -57,7 +57,7 @@ inline void CSVInfo::callback_item(std::span<char> str) {
 
 inline void CSVInfo::callback_assemble_row(int c) {
   if (!is_comment) {
-    if (!is_first_line) { 
+    if (!is_first_line) {
       row_parser(row_items);
       rows++;
     }

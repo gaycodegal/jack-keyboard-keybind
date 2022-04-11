@@ -2,20 +2,20 @@
 int MIDI_ERROR = 0;
 
 char note_values[] = {
-  9, //A
-  11,//B
-  0, //C
-  2, //D
-  4, //E
-  5, //F
-  7  //G
+    9,   // A
+    11,  // B
+    0,   // C
+    2,   // D
+    4,   // E
+    5,   // F
+    7    // G
 };
 
 /*
  * Takes in "C#-2"
  */
 int string_to_midi(std::string note) {
-  int midi = 24; // C0 is 24
+  int midi = 24;  // C0 is 24
   int note_index = 0;
   if (note.length() < 2) {
     return MIDI_ERROR;
@@ -34,7 +34,7 @@ int string_to_midi(std::string note) {
   if (note[note_index] == '#') {
     ++note_index;
     midi += 1;
-  } else if(note[note_index] == 'b') {
+  } else if (note[note_index] == 'b') {
     ++note_index;
     midi -= 1;
   }
@@ -55,7 +55,7 @@ int string_to_midi(std::string note) {
   if (octave < 0 || octave > 8 || (multiplier == -1 && octave > 2)) {
     return MIDI_ERROR;
   }
-  
+
   midi += note_values[c] + octave * 12 * multiplier;
 
   // bounds check for things like A8
@@ -66,7 +66,7 @@ int string_to_midi(std::string note) {
   if (midi < 0) {
     return 0;
   }
-  
+
   return midi;
 }
 

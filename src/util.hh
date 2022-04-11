@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
 #include <optional>
 #include <sstream>
+#include <string>
 
 extern int MIDI_ERROR;
 
@@ -11,7 +11,7 @@ extern int MIDI_ERROR;
  * C#-2 -> (1)
  * Ab4 -> (80)
  * returns between 0 (C-2) - 127 (G8)
- * 
+ *
  */
 int string_to_midi(std::string note);
 
@@ -19,4 +19,3 @@ int string_to_midi(std::string note);
  * Parses ints, if fail, return std::nullopt
  */
 std::optional<int> parse_int(std::string s);
-

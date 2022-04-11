@@ -13,7 +13,6 @@
 #include <unordered_map>
 #include <vector>
 
-
 typedef std::function<void(std::vector<std::string> row_items)>
     row_parser_callback;
 

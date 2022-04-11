@@ -1,7 +1,7 @@
 VERSION?=2.7.2
 
 help:
-	@echo "Targets: configure all clean install package"
+	@echo "Targets: configure all clean format install package"
 
 configure:
 
@@ -19,6 +19,10 @@ install:
 
 clean:
 	make -C build clean
+
+format:
+	clang-format -i $(wildcard src/*.cc)
+	clang-format -i $(wildcard src/*.hh)
 
 package:
 	make -C build clean || echo -n
