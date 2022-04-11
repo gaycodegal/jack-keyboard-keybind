@@ -251,7 +251,7 @@ process_received_message_async(gpointer evp)
 struct MidiMessage *
 midi_message_from_midi_event(jack_midi_event_t event)
 {
-	struct MidiMessage *ev = malloc(sizeof(*ev));
+  struct MidiMessage *ev = new MidiMessage();
 
 	if (ev == NULL) {
 		perror("malloc");
@@ -1575,7 +1575,7 @@ init_gtk_1(int *argc, char ***argv)
 
 	gtk_init(argc, argv);
 
-	icon = gtk_icon_theme_load_icon(gtk_icon_theme_get_default(), "jack-keyboard", 48, 0, &error);
+	icon = gtk_icon_theme_load_icon(gtk_icon_theme_get_default(), "jack-keyboard", 48, (GtkIconLookupFlags)0, &error);
 
 	if (icon == NULL) {
 		fprintf(stderr, "%s: Cannot load icon: %s.\n", G_LOG_DOMAIN, error->message);
@@ -1659,7 +1659,7 @@ init_gtk_2(void)
 	/* "Connected to" label and combo box. */
 	GtkCellRenderer *renderer;
 	label = gtk_label_new("Connect");
-	gtk_table_attach(GTK_TABLE(numwidget), label, 4, 5, 0, 1, GTK_FILL | GTK_EXPAND, GTK_FILL, 0, 0);
+	gtk_table_attach(GTK_TABLE(numwidget), label, 4, 5, 0, 1, (GtkAttachOptions)(GTK_FILL | GTK_EXPAND), GTK_FILL, 0, 0);
 
 	connected_to_store = gtk_list_store_new(1, G_TYPE_STRING);
 	connected_to_combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(connected_to_store));
@@ -1685,7 +1685,7 @@ init_gtk_2(void)
 	/* Sustain. It's a toggle button, not an ordinary one, because we want gtk_whatever_set_active() to work.*/
 	sustain_button = gtk_toggle_button_new_with_label("Sustain");
 	gtk_button_set_focus_on_click(GTK_BUTTON(sustain_button), FALSE);
-	gtk_table_attach(maintable, sustain_button, 0, 3, 1, 2, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+	gtk_table_attach(maintable, sustain_button, 0, 3, 1, 2, (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), GTK_FILL, 0, 0);
 	g_signal_connect(G_OBJECT(sustain_button), "pressed", G_CALLBACK(sustain_event_handler), (void *)1);
 	g_signal_connect(G_OBJECT(sustain_button), "released", G_CALLBACK(sustain_event_handler), (void *)0);
 
@@ -1706,7 +1706,7 @@ init_gtk_2(void)
 	gtk_range_set_value(GTK_RANGE(velocity_scale), VELOCITY_NORMAL);
 	gtk_range_set_inverted(GTK_RANGE(velocity_scale), TRUE);
 	gtk_range_set_round_digits(GTK_RANGE(velocity_scale), 0);
-	gtk_table_attach(GTK_TABLE(modwidget), velocity_scale, 0, 1, 1, 2, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_table_attach(GTK_TABLE(modwidget), velocity_scale, 0, 1, 1, 2, GTK_FILL, (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), 0, 0);
 	gtk_widget_set_size_request(GTK_WIDGET(velocity_scale), 40, 160);
 	
 	/* Modulation label and vscale */
@@ -1720,7 +1720,7 @@ init_gtk_2(void)
 	gtk_range_set_inverted(GTK_RANGE(mod_scale), TRUE);
 	gtk_range_set_round_digits(GTK_RANGE(mod_scale), 0);
 	g_signal_connect(G_OBJECT(mod_scale), "value-changed", G_CALLBACK(mod_event_handler), NULL);
-	gtk_table_attach(GTK_TABLE(modwidget), mod_scale, 1, 2, 1, 2, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_table_attach(GTK_TABLE(modwidget), mod_scale, 1, 2, 1, 2, GTK_FILL, (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), 0, 0);
 	gtk_widget_set_size_request(GTK_WIDGET(mod_scale), 40, 160);
 	
 	/* Pitch Bend label and vscale */
@@ -1734,12 +1734,12 @@ init_gtk_2(void)
 	gtk_range_set_inverted(GTK_RANGE(pitch_scale), TRUE);
 	gtk_range_set_round_digits(GTK_RANGE(pitch_scale), 0);
 	g_signal_connect(G_OBJECT(pitch_scale), "value-changed", G_CALLBACK(pitch_event_handler), NULL);
-	gtk_table_attach(GTK_TABLE(modwidget), pitch_scale, 2, 3, 1, 2, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_table_attach(GTK_TABLE(modwidget), pitch_scale, 2, 3, 1, 2, GTK_FILL, (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), 0, 0);
 	gtk_widget_set_size_request(GTK_WIDGET(pitch_scale), 40, 160);
 	
 	
 	/* Keyboard */
-	gtk_table_attach(maintable, GTK_WIDGET(keyboard), 0, 3, 2, 3, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_table_attach(maintable, GTK_WIDGET(keyboard), 0, 3, 2, 3, (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), 0, 0);
 	
 	
 	g_signal_connect(G_OBJECT(keyboard), "note-on", G_CALLBACK(note_on_event_handler), NULL);
