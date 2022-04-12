@@ -1,0 +1,49 @@
+style "default"
+{
+	xthickness		 = 3
+	ythickness		 = 2
+	fg[NORMAL]		= "#fff"
+	fg[PRELIGHT]	  = "#fff"
+	fg[ACTIVE]		= "#fff"
+	fg[SELECTED]	  = "#fff"
+	fg[INSENSITIVE]   = "#aaa"
+	bg[NORMAL]		= "#222"
+	bg[PRELIGHT]	  = "#444"
+	bg[ACTIVE]		= "#222"
+	bg[SELECTED]	  = "#0af"
+	bg[INSENSITIVE]   = "#666"
+	base[NORMAL]	  = "#000"
+	base[PRELIGHT]	= "#444"
+	base[ACTIVE]	  = "#444"
+	base[SELECTED]	= "#444"
+	base[INSENSITIVE] = "#333"
+	text[NORMAL]	  = "#fff"
+	text[PRELIGHT]	= "#fff"
+	text[ACTIVE]	  = "#f80"
+	text[SELECTED]	= "#f80"
+	text[INSENSITIVE] = "#666"
+}
+style "button"
+{
+	fg[NORMAL]		= "#fff"
+	bg[NORMAL]		= "#000"
+	bg[PRELIGHT]	  = "#333"
+	bg[ACTIVE]		= "#444"
+	bg[INSENSITIVE]   = "#222"
+}
+style "scale"
+{
+	bg[NORMAL]		= "#555"
+	bg[PRELIGHT]	  = "#000"
+	bg[ACTIVE]		= "#000"
+	bg[INSENSITIVE]   = "#333"
+}
+style "label"
+{
+	fg[NORMAL]		= "#aaa"
+}
+widget "*" style : rc "default"
+widget_class"*Gtk*Scale*" style : highest "scale"
+widget_class"*GtkLabel*" style : highest "label"
+widget_class"*GtkButton*" style : highest "button"
+widget_class"*GtkToggle*" style : highest "button"

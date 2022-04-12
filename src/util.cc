@@ -80,3 +80,15 @@ std::optional<int> parse_int(std::string s) {
   }
   return {i};
 }
+
+std::optional<std::string> read_file(const std::filesystem::path path) {
+  try {
+    std::ifstream file{path};
+    const auto size = std::filesystem::file_size(path);
+    std::string result(size, ' ');
+    file.read(result.data(), size);
+    return result;
+  } catch(std::filesystem::filesystem_error const& ex) {
+    return std::nullopt;
+  }
+}

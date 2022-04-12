@@ -51,8 +51,11 @@
 #include "config.h"
 #endif
 
+#include <filesystem>
+
 #include "easykeyboard.hh"
 #include "pianokeyboard.hh"
+#include "util.hh"
 
 #ifdef HAVE_LASH
 #include <lash/lash.h>
@@ -101,6 +104,8 @@ int *current_velocity = &velocity_normal;
 int octave = 4;
 double rate_limit = 0.0;
 jack_client_t *jack_client = NULL;
+const std::string HOME_DIR = getenv("HOME");
+const std::filesystem::path STYLE_PATH = HOME_DIR + "/.jack-keyboard/main.rc";
 
 #ifdef HAVE_LASH
 lash_client_t *lash_client;
@@ -129,7 +134,7 @@ static void panic(void);
 #define CHANNEL_MIN 1
 #define CHANNEL_MAX 16
 
-const char *rc_style = "";
+
 
 GtkWidget *window, *sustain_button, *channel_spin, *bank_spin, *program_spin,
     *connected_to_combo, *velocity_scale, *grab_keyboard_checkbutton,
@@ -1496,7 +1501,9 @@ void init_gtk_1(int *argc, char ***argv) {
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_container_set_border_width(GTK_CONTAINER(window), 2);
 
-  gtk_rc_parse_string(rc_style);
+  if (auto rc_style = read_file(STYLE_PATH); rc_style) {
+    gtk_rc_parse_string(rc_style.value().c_str());
+  }
 }
 
 void init_gtk_2(void) {
