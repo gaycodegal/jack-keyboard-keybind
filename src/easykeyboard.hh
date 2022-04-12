@@ -4,7 +4,11 @@
 #include <string>
 #include <unordered_map>
 
-namespace keyboard {
+namespace keymap {
+// see google styleguide on namespaces
+// helps avoid conflicts, but you can just use keymap::KeyMap if you don't have
+// conflicts
+inline namespace easy {
 
 typedef std::function<void(void *event, void *data)> keybind_callback;
 
@@ -44,4 +48,6 @@ class KeyMap {
     }
   }
 };
-};  // namespace keyboard
+
+};  // namespace easy
+};  // namespace keymap

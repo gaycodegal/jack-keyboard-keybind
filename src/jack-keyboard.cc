@@ -51,6 +51,7 @@
 #include "config.h"
 #endif
 
+#include "easykeyboard.hh"
 #include "pianokeyboard.hh"
 
 #ifdef HAVE_LASH
