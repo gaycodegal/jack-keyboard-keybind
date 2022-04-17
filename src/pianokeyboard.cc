@@ -286,7 +286,6 @@ static void bind_keys_qwerty(PianoKeyboard *pk) {
                   bind_key(pk, qwerty_map[row[MidiMap::key]],
                            string_to_midi(row[MidiMap::note]));
                 });
-    std::cout << "here" << std::endl;
     fclose(fp);
   }
 }

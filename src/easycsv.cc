@@ -102,6 +102,4 @@ void CSVParser::readFile(FILE *file, std::vector<std::string> expected_columns,
   }
 
   csv_fini(&parser, &CSVInfo::cb1_item, &CSVInfo::cb2_assemble_row, &info);
-
-  std::cout << info.rows << " rows\n";
 }
