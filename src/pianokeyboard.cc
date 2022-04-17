@@ -571,7 +571,7 @@ GtkWidget *piano_keyboard_new(void) {
   pk->octave = 4;
   pk->note_being_pressed_using_mouse = -1;
   memset((void *)pk->notes, 0, sizeof(struct Note) * NNOTES);
-  /* 255 here is a random value larger than the highest key we bind. */
+  /* 255 max unsigned char, thus max keycode we can bind */
   pk->key_bindings = g_array_sized_new(FALSE, TRUE, sizeof(int), 255);
   pk->min_note = PIANO_MIN_NOTE;
   pk->max_note = PIANO_MAX_NOTE;
