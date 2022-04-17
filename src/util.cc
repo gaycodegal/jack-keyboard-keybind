@@ -14,7 +14,7 @@ char note_values[] = {
 /*
  * Takes in "C#-2"
  */
-int string_to_midi(std::string note) {
+int string_to_midi(const std::string &note) {
   int midi = 24;  // C0 is 24
   int note_index = 0;
   if (note.length() < 2) {
@@ -70,7 +70,7 @@ int string_to_midi(std::string note) {
   return midi;
 }
 
-std::optional<int> parse_int(std::string s) {
+std::optional<int> parse_int(const std::string &s) {
   char c;
   std::stringstream ss(s);
   int i;
@@ -81,14 +81,14 @@ std::optional<int> parse_int(std::string s) {
   return {i};
 }
 
-std::optional<std::string> read_file(const std::filesystem::path path) {
+std::optional<std::string> read_file(const std::filesystem::path &path) {
   try {
     std::ifstream file{path};
     const auto size = std::filesystem::file_size(path);
     std::string result(size, ' ');
     file.read(result.data(), size);
     return result;
-  } catch (std::filesystem::filesystem_error const& ex) {
+  } catch (std::filesystem::filesystem_error const &ex) {
     return std::nullopt;
   }
 }

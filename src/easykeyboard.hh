@@ -27,15 +27,15 @@ struct KeyBind {
 class KeyMap {
  private:
   std::unordered_map<std::string, KeyBind *> keymap;
-
-  void destroy(std::string key) {
+  
+  void destroy(const std::string &key) {
     if (auto pair = keymap.find(key); pair != keymap.end()) {
-      destroy(&(*pair));
+      destroy(*pair);
     }
   }
 
-  void destroy(std::pair<const std::string, KeyBind *> *pair) {
-    auto bind = pair->second;
+  void destroy(const std::pair<const std::string, KeyBind *> &pair) {
+    auto bind = pair.second;
     bind->destroy_data(bind->data);
     delete bind;
   }
@@ -43,17 +43,17 @@ class KeyMap {
  public:
   ~KeyMap() {
     for (auto i : keymap) {
-      destroy(&i);
+      destroy(i);
     }
   };
 
-  void set(std::string key, KeyBind bind) {
+  void set(const std::string &key, KeyBind bind) {
     // if key already set, delete previous binding
     destroy(key);
     keymap[key] = new KeyBind(bind);
   }
 
-  bool callback(std::string key, void *event) {
+  bool callback(const std::string &key, void *event) {
     if (auto pair = keymap.find(key); pair != keymap.end()) {
       auto bind = pair->second;
       bind->callback(event, bind->data);
