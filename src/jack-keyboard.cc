@@ -1929,5 +1929,9 @@ int main(int argc, char *argv[]) {
 
   gtk_main();
 
+  // I mean technically we could just let the memory go to waste, but
+  // we did promise to call destructors in the API
+  delete functions_keymap;
+
   return (0);
 }

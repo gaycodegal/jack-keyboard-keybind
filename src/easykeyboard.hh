@@ -28,7 +28,25 @@ class KeyMap {
  private:
   std::unordered_map<std::string, KeyBind *> keymap;
 
+  void destroy(std::string key) {
+    if (auto pair = keymap.find(key); pair != keymap.end()) {
+      destroy(&(*pair));
+    }
+  }
+
+  void destroy(std::pair<const std::string, KeyBind *> *pair) {
+    auto bind = pair->second;
+    bind->destroy_data(bind->data);
+    delete bind;
+  }
+
  public:
+  ~KeyMap() {
+    for(auto i: keymap) {
+      destroy(&i);
+    }
+  };
+
   void set(std::string key, KeyBind bind) {
     // if key already set, delete previous binding
     destroy(key);
@@ -42,14 +60,6 @@ class KeyMap {
       return true;
     }
     return false;
-  }
-
-  void destroy(std::string key) {
-    if (auto pair = keymap.find(key); pair != keymap.end()) {
-      auto bind = pair->second;
-      bind->destroy_data(bind->data);
-      delete bind;
-    }
   }
 };
 
