@@ -42,7 +42,7 @@ class KeyMap {
 
  public:
   ~KeyMap() {
-    for(auto i: keymap) {
+    for (auto i : keymap) {
       destroy(&i);
     }
   };

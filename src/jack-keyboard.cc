@@ -1751,19 +1751,6 @@ int main(int argc, char *argv[]) {
           initial_program = 0, full_midi_keyboard = 0;
   char *keyboard_layout = NULL, *autoconnect_port_name = NULL;
 
-  // will read from CSV soon
-  functions_keymap = new keymap::KeyMap();
-  /*
-   * '+' key shifts octave up. '-' key shifts octave down.
-   */
-
-  functions_keymap->set(
-      std::string(1, GDK_equal),
-      {keybind_callback_octave_up, keybind_destructor_null, NULL});
-  functions_keymap->set(
-      std::string(1, GDK_minus),
-      {keybind_callback_octave_down, keybind_destructor_null, NULL});
-
 #ifdef HAVE_LASH
   lash_args_t *lash_args;
 #endif
@@ -1891,6 +1878,19 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  // will read from CSV soon
+  functions_keymap = new keymap::KeyMap();
+  /*
+   * '+' key shifts octave up. '-' key shifts octave down.
+   */
+
+  functions_keymap->set(
+      std::string(1, GDK_equal),
+      {keybind_callback_octave_up, keybind_destructor_null, NULL});
+  functions_keymap->set(
+      std::string(1, GDK_minus),
+      {keybind_callback_octave_down, keybind_destructor_null, NULL});
+
   argc -= optind;
   argv += optind;
 
@@ -1903,6 +1903,7 @@ int main(int argc, char *argv[]) {
 
     if (ret) {
       g_critical("Invalid layout, proper choices are QWERTY.");
+      delete functions_keymap;
       exit(EX_USAGE);
     }
   }
