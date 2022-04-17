@@ -21,5 +21,8 @@
 -   Allow instrument selection via [OSC][OSC] so we can automatically
     select the same instrument(s) as the daw
 
+-   Command line arguments for file path configuration, perhaps
+    a verbosity toggle?
+
 
 [OSC]: https://en.wikipedia.org/wiki/Open_Sound_Control

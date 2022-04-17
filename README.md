@@ -12,6 +12,8 @@ cp ./bindings/* ~/.jack-keyboard/bindings
 cp ./boards/* ~/.jack-keyboard/boards
 ```
 
+Technically there's also `./style/main.rc` which can be placed into `~/.jack-keyboard/main.rc`, but for me, it renders the textboxes as white background and foreground meaning the values cannot be read. So I've had to isolate this file so that it can be disabled.
+
 You can modify the bindings file to remap your keys to new notes. You could for instance change the mapping to a different scale, or add more keys if you have a bigger keyboard. Eventually I hope to support rebinding of functions, the ability to change keyboard or scale, but this is a start.
 
 You can modify the boards files to support more custom layouts like dvorak, etc. `xev` can help with finding out keycodes
