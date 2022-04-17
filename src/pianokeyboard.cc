@@ -305,8 +305,10 @@ static gint keyboard_event_handler(GtkWidget *mk, GdkEventKey *event,
 
   note += pk->octave * 12;
 
-  assert(note >= 0);
-  assert(note < NNOTES);
+  // note was bound, but we're beyond the midi spec, cannot play.
+  if (note < 0 || note >= NNOTES) {
+    return (TRUE);
+  }
 
   if (event->type == GDK_KEY_PRESS) {
     press_key(pk, note);

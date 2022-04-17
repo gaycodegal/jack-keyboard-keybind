@@ -24,5 +24,4 @@
 -   Command line arguments for file path configuration, perhaps
     a verbosity toggle?
 
-
 [OSC]: https://en.wikipedia.org/wiki/Open_Sound_Control
