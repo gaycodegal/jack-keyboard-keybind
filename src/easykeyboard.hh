@@ -27,7 +27,7 @@ struct KeyBind {
 class KeyMap {
  private:
   std::unordered_map<std::string, KeyBind *> keymap;
-  
+
   void destroy(const std::string &key) {
     if (auto pair = keymap.find(key); pair != keymap.end()) {
       destroy(*pair);

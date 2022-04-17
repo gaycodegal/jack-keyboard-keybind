@@ -51,7 +51,6 @@
 // using easy keyboard because eventually I want to be able to bind to
 // chord or arpeggiator, as well as note
 #include "easycsv.hh"
-#include "easykeyboard.hh"
 #include "util.hh"
 
 #define PIANO_KEYBOARD_DEFAULT_WIDTH 730
@@ -217,8 +216,6 @@ static void clear_notes(PianoKeyboard *pk) {
   g_array_set_size(pk->key_bindings, 0);
 }
 
-enum KeyMap { code, name };
-
 static void bind_keys_qwerty(PianoKeyboard *pk) {
   clear_notes(pk);
   std::string homedir = getenv("HOME");
@@ -226,6 +223,9 @@ static void bind_keys_qwerty(PianoKeyboard *pk) {
     std::cerr << "Failed to initialize csv parser\n";
     return;
   } else {
+    // read in the keymap file, and put it into the qwerty_map
+    // which has pairs like
+    // {"KEYBOARD_KEY_NAME (like 'Escape')": KEY_CODE (like 9)}
     std::string filename = homedir + "/.jack-keyboard/boards/qwerty.csv";
 
     FILE *fp = fopen(filename.c_str(), "rb");
@@ -243,14 +243,21 @@ static void bind_keys_qwerty(PianoKeyboard *pk) {
 
     std::unordered_map<std::string, int> qwerty_map;
 
+    enum KeyMap { code, name };
+    // iterate throught the rows of the keycode definitions file
     p->readFile(fp, std::vector<std::string>{"code", "name"},
                 [&qwerty_map](const std::vector<std::string> &row) {
+                  // for each row, attempt to parse the keycode to an int
                   if (auto code{parse_int(row[KeyMap::code])}; code) {
+                    // set the key's name to return the key's code
                     qwerty_map[row[KeyMap::name]] = code.value();
                   }
                 });
 
     fclose(fp);
+
+    // read in the map of keys to midi notes
+    // and bind those key codes to the midi note value
     filename = homedir + "/.jack-keyboard/bindings/keymap.csv";
     fp = fopen(filename.c_str(), "rb");
     if (!fp) {
@@ -265,12 +272,19 @@ static void bind_keys_qwerty(PianoKeyboard *pk) {
       return;
     }
 
+    enum MidiMap { key, note };
+    // iterate through rows of keymap file
     p->readFile(fp, std::vector<std::string>{"key", "note"},
                 [&qwerty_map, &pk](const std::vector<std::string> &row) {
-                  std::cout << row[0] << " -> " << row[1] << std::endl;
-                  std::cout << qwerty_map[row[0]] << " -> "
-                            << string_to_midi(row[1]) << std::endl;
-                  bind_key(pk, qwerty_map[row[0]], string_to_midi(row[1]));
+                  // std::cout << row[0] << " -> " << row[1] << std::endl;
+                  // std::cout << qwerty_map[row[0]] << " -> "
+                  //<< string_to_midi(row[1]) << std::endl;
+
+                  //  parse the key into keycode using qwerty_map
+                  //  parse the midi note to midi value using string_to_midi
+                  //  bind the key code to trigger that midi note
+                  bind_key(pk, qwerty_map[row[MidiMap::key]],
+                           string_to_midi(row[MidiMap::note]));
                 });
     std::cout << "here" << std::endl;
     fclose(fp);
