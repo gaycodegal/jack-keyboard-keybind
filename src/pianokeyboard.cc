@@ -244,11 +244,7 @@ static void bind_keys_qwerty(PianoKeyboard *pk) {
     std::unordered_map<std::string, int> qwerty_map;
 
     p->readFile(fp, std::vector<std::string>{"code", "name"},
-                [&qwerty_map](std::vector<std::string> row) {
-                  /*for (auto &item: row) {
-                    std::cout << item << ' ';
-                    }
-                    std::cout << std::endl;*/
+                [&qwerty_map](const std::vector<std::string> &row) {
                   if (auto code{parse_int(row[KeyMap::code])}; code) {
                     qwerty_map[row[KeyMap::name]] = code.value();
                   }
@@ -270,7 +266,7 @@ static void bind_keys_qwerty(PianoKeyboard *pk) {
     }
 
     p->readFile(fp, std::vector<std::string>{"key", "note"},
-                [&qwerty_map, &pk](std::vector<std::string> row) {
+                [&qwerty_map, &pk](const std::vector<std::string> &row) {
                   std::cout << row[0] << " -> " << row[1] << std::endl;
                   std::cout << qwerty_map[row[0]] << " -> "
                             << string_to_midi(row[1]) << std::endl;
