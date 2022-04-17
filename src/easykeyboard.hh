@@ -10,9 +10,9 @@ namespace keymap {
 // conflicts
 inline namespace easy {
 
-typedef std::function<void(void *event, void *data)> keybind_callback;
+typedef const std::function<void(void *event, void *data)> keybind_callback;
 
-typedef std::function<void(void *data)> keybind_destructor;
+typedef const std::function<void(void *data)> keybind_destructor;
 
 struct KeyBind {
   keybind_callback callback;
