@@ -88,7 +88,7 @@ std::optional<std::string> read_file(const std::filesystem::path path) {
     std::string result(size, ' ');
     file.read(result.data(), size);
     return result;
-  } catch(std::filesystem::filesystem_error const& ex) {
+  } catch (std::filesystem::filesystem_error const& ex) {
     return std::nullopt;
   }
 }

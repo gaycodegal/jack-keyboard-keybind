@@ -18,7 +18,9 @@ struct KeyBind {
   keybind_callback callback;
   keybind_destructor destroy_data;
   void *data;
-  KeyBind(keybind_callback, keybind_destructor, void * = NULL);
+  KeyBind(keybind_callback callback, keybind_destructor destroy_data,
+          void *data = NULL)
+      : callback(callback), destroy_data(destroy_data), data(data){};
 };
 
 // TODO, reuse KeyBind objects?, delete all
@@ -33,11 +35,13 @@ class KeyMap {
     keymap[key] = new KeyBind(bind);
   }
 
-  void callback(std::string key, void *event) {
+  bool callback(std::string key, void *event) {
     if (auto pair = keymap.find(key); pair != keymap.end()) {
       auto bind = pair->second;
       bind->callback(event, bind->data);
+      return true;
     }
+    return false;
   }
 
   void destroy(std::string key) {

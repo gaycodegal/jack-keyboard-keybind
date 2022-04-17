@@ -52,6 +52,7 @@
 #endif
 
 #include <filesystem>
+#include <iostream>
 
 #include "easykeyboard.hh"
 #include "pianokeyboard.hh"
@@ -134,13 +135,12 @@ static void panic(void);
 #define CHANNEL_MIN 1
 #define CHANNEL_MAX 16
 
-
-
 GtkWidget *window, *sustain_button, *channel_spin, *bank_spin, *program_spin,
     *connected_to_combo, *velocity_scale, *grab_keyboard_checkbutton,
     *octave_spin, *mod_scale, *pitch_scale, *panic_button;
 PianoKeyboard *keyboard;
 GtkListStore *connected_to_store;
+keymap::KeyMap *functions_keymap;
 
 #ifdef HAVE_X11
 Display *dpy;
@@ -1290,21 +1290,11 @@ gint keyboard_event_handler(GtkWidget *widget, GdkEventKey *event,
 
   if (maybe_add_digit(event)) return (TRUE);
 
-  /*
-   * '+' key shifts octave up. '-' key shifts octave down.
-   */
-  if (event->keyval == GDK_KP_Add || event->keyval == GDK_equal) {
-    if (event->type == GDK_KEY_PRESS && octave < OCTAVE_MAX)
-      gtk_spin_button_set_value(GTK_SPIN_BUTTON(octave_spin), octave + 1);
-
-    return (TRUE);
-  }
-
-  if (event->keyval == GDK_KP_Subtract || event->keyval == GDK_minus) {
-    if (event->type == GDK_KEY_PRESS && octave > OCTAVE_MIN)
-      gtk_spin_button_set_value(GTK_SPIN_BUTTON(octave_spin), octave - 1);
-
-    return (TRUE);
+  std::string pressed(1, event->keyval);
+  if (event->type == GDK_KEY_PRESS) {
+    if (functions_keymap->callback(pressed, event)) {
+      return (TRUE);
+    }
   }
 
   /*
@@ -1742,10 +1732,37 @@ void usage(void) {
   exit(EX_USAGE);
 }
 
+void keybind_callback_octave_up(void *event, void *data) {
+  if (octave < OCTAVE_MAX) {
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(octave_spin), octave + 1);
+  }
+}
+
+void keybind_callback_octave_down(void *event, void *data) {
+  if (octave > OCTAVE_MIN) {
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(octave_spin), octave - 1);
+  }
+}
+
+void keybind_destructor_null(void *data) {}
+
 int main(int argc, char *argv[]) {
   int ch, enable_keyboard_cue = 0, initial_channel = 1, initial_bank = 0,
           initial_program = 0, full_midi_keyboard = 0;
   char *keyboard_layout = NULL, *autoconnect_port_name = NULL;
+
+  // will read from CSV soon
+  functions_keymap = new keymap::KeyMap();
+  /*
+   * '+' key shifts octave up. '-' key shifts octave down.
+   */
+
+  functions_keymap->set(
+      std::string(1, GDK_equal),
+      {keybind_callback_octave_up, keybind_destructor_null, NULL});
+  functions_keymap->set(
+      std::string(1, GDK_minus),
+      {keybind_callback_octave_down, keybind_destructor_null, NULL});
 
 #ifdef HAVE_LASH
   lash_args_t *lash_args;

@@ -1,10 +1,10 @@
 #pragma once
 
+#include <filesystem>
+#include <fstream>
 #include <optional>
 #include <sstream>
 #include <string>
-#include <filesystem>
-#include <fstream>
 
 extern int MIDI_ERROR;
 
