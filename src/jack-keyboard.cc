@@ -1916,6 +1916,7 @@ int main(int argc, char *argv[]) {
   if (autoconnect_port_name) {
     if (connect_to_input_port(autoconnect_port_name)) {
       g_critical("Couldn't connect to '%s', exiting.", autoconnect_port_name);
+      delete functions_keymap;
       exit(EX_UNAVAILABLE);
     }
   }
